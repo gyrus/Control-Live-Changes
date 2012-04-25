@@ -27,6 +27,7 @@ Development code hosted at [GitHub](https://github.com/gyrus/Control-Live-Change
 == Installation ==
 1. Upload the `control-live-changes` directory into the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
+1. If necessary, define constants in `wp-config.php` to override the plugin defaults - see the Description for details.
 
 NOTE: Instead of the above, you may want to drop the `control-live-changes.php` file into the `/wp-content/mu-plugins/` directory to ensure that no one deactivates this plugin!
 
