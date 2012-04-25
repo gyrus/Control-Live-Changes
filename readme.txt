@@ -1,10 +1,10 @@
 === Control Live Changes ===
 Contributors: gyrus
 Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
-Tags: updates, upgrades, git
-Requires at least: 3.3
+Tags: disable, updates, upgrades, git
+Requires at least: 3.0
 Tested up to: 3.3.2
-Stable tag: 1.0
+Stable tag: 0.1
 
 Prevents certain upgrade and installation actions on non-local environments.
 
@@ -19,6 +19,8 @@ The following constants can be defined in `wp-config.php` to override the defaul
 * `SLT_CLC_DISABLE_REMOTE_CORE_UPGRADES` - Default: `false`
 * `SLT_CLC_DISABLE_REMOTE_PLUGIN_THEME_UPGRADES` - This will also disable editing plugin and theme files via the admin interface. Default: `true`
 * `SLT_CLC_OUTPUT_NOTICES` - Whether to output explanatory notices on the upgrades, themes, and plugins admin pages. Default: `true`
+* `SLT_CLC_CORE_NOTICE` - Default: `"Core upgrades are currently disabled on this server by the Control Live Changes plugin."`
+* `SLT_CLC_PLUGIN_THEME_NOTICE` - Default: `"Plugin and theme upgrades are currently disabled on this server by the Control Live Changes plugin."`
 
 Development code hosted at [GitHub](https://github.com/gyrus/Control-Live-Changes).
 
@@ -26,6 +28,8 @@ Development code hosted at [GitHub](https://github.com/gyrus/Control-Live-Change
 1. Upload the `control-live-changes` directory into the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
+NOTE: Instead of the above, you may want to drop the `control-live-changes.php` file into the `/wp-content/mu-plugins/` directory to ensure that no one deactivates this plugin!
+
 == Changelog ==
-= 1.0 =
+= 0.1 =
 * First version
