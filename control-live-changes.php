@@ -32,10 +32,8 @@ if ( ! defined( 'SLT_CLC_CORE_NOTICE' ) )
 if ( ! defined( 'SLT_CLC_PLUGIN_THEME_NOTICE' ) )
 	define( 'SLT_CLC_PLUGIN_THEME_NOTICE', 'Plugin and theme upgrades are currently disabled on this server by the Control Live Changes plugin.' );
 
-if ( is_admin() ) {
-	// Earliest available hook...
-	add_action( 'plugins_loaded', 'slt_clc_init' );
-}
+// Earliest available hook...
+add_action( 'plugins_loaded', 'slt_clc_init' );
 function slt_clc_init() {
 
 	// Check environment
@@ -46,12 +44,12 @@ function slt_clc_init() {
 		if ( SLT_CLC_DISABLE_REMOTE_CORE_UPGRADES ) {
 			add_filter( 'pre_site_transient_update_core', create_function( '$a', "return null;" ) );
 			// Add notices?
-			if ( SLT_CLC_OUTPUT_NOTICES && $pagenow == 'update-core.php' ) {
+			if ( SLT_CLC_OUTPUT_NOTICES && is_admin() && $pagenow == 'update-core.php' ) {
 				add_action( 'admin_notices', 'slt_clc_core_notice' );
 			}
 		} else {
 			// Core updates are enabled - but don't output the nag for people who can't do the update
-			if ( ! current_user_can( 'update_core' ) ) {
+			if ( is_admin() && ! current_user_can( 'update_core' ) ) {
 				add_action( 'admin_menu', create_function( '$a', "remove_action( 'admin_notices', 'update_nag', 3 );" ) );
 			}
 		}
@@ -64,7 +62,7 @@ function slt_clc_init() {
 			remove_action( 'load-update-core.php', 'wp_update_themes' );
 			add_filter( 'pre_site_transient_update_themes', create_function( '$a', "return null;" ) );
 			// Add notices?
-			if ( SLT_CLC_OUTPUT_NOTICES && in_array( $pagenow, array( 'plugins.php', 'themes.php', 'update-core.php' ) ) ) {
+			if ( is_admin() && SLT_CLC_OUTPUT_NOTICES && in_array( $pagenow, array( 'plugins.php', 'themes.php', 'update-core.php' ) ) ) {
 				add_action( 'admin_notices', 'slt_clc_plugin_theme_notice' );
 			}
 		}
