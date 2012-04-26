@@ -11,7 +11,7 @@ Prevents certain upgrade and installation actions on non-local environments.
 == Description ==
 This plugin has arisen from the requirements of a client who manage many of their WordPress sites via Git repositories on Beanstalk. Core WP files are not in the repo, to keep its size down, but plugins and themes are. WP upgrades are of course tested on local development and remote staging servers before being run on the production server. But since plugins and themes are in the repo, ideally they should be upgraded locally for testing, then pushed to Beanstalk. Beanstalk in turn deploys the changes to the staging server, and then the production server.
 
-To help maintain this workflow, this plugin tests if the environment is local or not (searching for "localhost" in `$_SERVER['HTTP_HOST']`). If the environment isn't local, plugin upgrades are disabled.
+To help maintain this workflow, this plugin tests if the environment is local or not (checking for `WP_LOCAL_DEV` or searching for "localhost" in `$_SERVER['HTTP_HOST']`). If the environment isn't local, plugin upgrades are disabled.
 
 The following constants can be defined in `wp-config.php` to override the defaults:
 
@@ -21,6 +21,8 @@ The following constants can be defined in `wp-config.php` to override the defaul
 * `SLT_CLC_OUTPUT_NOTICES` - Whether to output explanatory notices on the upgrades, themes, and plugins admin pages. Default: `true`
 * `SLT_CLC_CORE_NOTICE` - Default: `"Core upgrades are currently disabled on this server by the Control Live Changes plugin."`
 * `SLT_CLC_PLUGIN_THEME_NOTICE` - Default: `"Plugin and theme upgrades are currently disabled on this server by the Control Live Changes plugin."`
+
+An alternative to the `SLT_CLC_LOCAL_STRING` check for a local environment is the `WP_LOCAL_DEV` constant. This is used by Mark Jaquith in his technique for defining local database connection details in a separate file (http://markjaquith.wordpress.com/2011/06/24/wordpress-local-dev-tips/). If `WP_LOCAL_DEV` is set to true, the `SLT_CLC_LOCAL_STRING` check is made irrelevant.
 
 Development code hosted at [GitHub](https://github.com/gyrus/Control-Live-Changes).
 

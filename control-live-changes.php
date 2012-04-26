@@ -37,7 +37,7 @@ if ( is_admin() ) {
 function slt_clc_init() {
 
 	// Check environment
-	if ( strpos( $_SERVER['HTTP_HOST'], SLT_CLC_LOCAL_STRING ) === false ) {
+	if ( ( defined( 'WP_LOCAL_DEV' ) && WP_LOCAL_DEV ) || strpos( $_SERVER['HTTP_HOST'], SLT_CLC_LOCAL_STRING ) === false ) {
 
 		// Disable core upgrades?
 		if ( SLT_CLC_DISABLE_REMOTE_CORE_UPGRADES ) {
