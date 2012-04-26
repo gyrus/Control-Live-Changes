@@ -27,6 +27,8 @@ if ( ! defined( 'SLT_CLC_DISABLE_REMOTE_PLUGIN_THEME_UPGRADES' ) )
 	define( 'SLT_CLC_DISABLE_REMOTE_PLUGIN_THEME_UPGRADES', true );
 if ( ! defined( 'SLT_CLC_OUTPUT_NOTICES' ) )
 	define( 'SLT_CLC_OUTPUT_NOTICES', true );
+if ( ! defined( 'SLT_CLC_CORE_NOTICE' ) )
+	define( 'SLT_CLC_CORE_NOTICE', 'Core upgrades are currently disabled on this server by the Control Live Changes plugin.' );
 if ( ! defined( 'SLT_CLC_PLUGIN_THEME_NOTICE' ) )
 	define( 'SLT_CLC_PLUGIN_THEME_NOTICE', 'Plugin and theme upgrades are currently disabled on this server by the Control Live Changes plugin.' );
 
@@ -38,10 +40,15 @@ function slt_clc_init() {
 
 	// Check environment
 	if ( ( defined( 'WP_LOCAL_DEV' ) && WP_LOCAL_DEV ) || strpos( $_SERVER['HTTP_HOST'], SLT_CLC_LOCAL_STRING ) === false ) {
+		global $pagenow;
 
 		// Disable core upgrades?
 		if ( SLT_CLC_DISABLE_REMOTE_CORE_UPGRADES ) {
 			add_filter( 'pre_site_transient_update_core', create_function( '$a', "return null;" ) );
+			// Add notices?
+			if ( SLT_CLC_OUTPUT_NOTICES && $pagenow == 'update-core.php' ) {
+				add_action( 'admin_notices', 'slt_clc_core_notice' );
+			}
 		} else {
 			// Core updates are enabled - but don't output the nag for people who can't do the update
 			if ( ! current_user_can( 'update_core' ) ) {
@@ -57,9 +64,8 @@ function slt_clc_init() {
 			remove_action( 'load-update-core.php', 'wp_update_themes' );
 			add_filter( 'pre_site_transient_update_themes', create_function( '$a', "return null;" ) );
 			// Add notices?
-			global $pagenow;
-			if ( SLT_CLC_OUTPUT_NOTICES && in_array( $pagenow, array( 'plugins.php', 'themes.php' ) ) ) {
-				add_action( 'admin_notices', 'slt_clc_plugin_theme_notice' );
+			if ( SLT_CLC_OUTPUT_NOTICES && in_array( $pagenow, array( 'plugins.php', 'themes.php', 'update-core.php' ) ) ) {
+				add_action( 'admin_notices', 'slt_clc_core_notice' );
 			}
 		}
 
@@ -67,7 +73,10 @@ function slt_clc_init() {
 
 }
 
-// Output notices for plugin or theme pages
+// Output notices
 function slt_clc_plugin_theme_notice() {
 	echo '<div class="error"><p>' . esc_html( SLT_CLC_PLUGIN_THEME_NOTICE ) . '</p></div>';
+}
+function slt_clc_core_notice() {
+	echo '<div class="error"><p>' . esc_html( SLT_CLC_CORE_NOTICE ) . '</p></div>';
 }
