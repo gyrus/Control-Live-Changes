@@ -37,7 +37,7 @@ add_action( 'plugins_loaded', 'slt_clc_init' );
 function slt_clc_init() {
 
 	// Check environment
-	if ( ( defined( 'WP_LOCAL_DEV' ) && WP_LOCAL_DEV ) || strpos( $_SERVER['HTTP_HOST'], SLT_CLC_LOCAL_STRING ) === false ) {
+	if ( ( defined( 'WP_LOCAL_DEV' ) && ! WP_LOCAL_DEV ) || strpos( $_SERVER['HTTP_HOST'], SLT_CLC_LOCAL_STRING ) === false ) {
 		global $pagenow;
 
 		// Disable core upgrades?
