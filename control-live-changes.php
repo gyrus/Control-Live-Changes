@@ -4,7 +4,7 @@
  * Plugin Name: Control Live Changes
  * Plugin URI: http://sltaylor.co.uk/
  * Description: Prevents certain upgrade and installation actions on non-local environments. With thanks to John Blackbourn!
- * Version: 0.1
+ * Version: 0.2
  * Author: Steve Taylor
  * Author URI: http://sltaylor.co.uk/
  * License: GPL2
@@ -42,7 +42,7 @@ function slt_clc_init() {
 
 		// Disable core upgrades?
 		if ( SLT_CLC_DISABLE_REMOTE_CORE_UPGRADES ) {
-			add_filter( 'pre_site_transient_update_core', create_function( '$a', "return null;" ) );
+			add_filter( 'map_meta_cap', 'slt_clc_disable_core_upgrades', 10, 2 );
 			// Add notices?
 			if ( SLT_CLC_OUTPUT_NOTICES && is_admin() && $pagenow == 'update-core.php' ) {
 				add_action( 'admin_notices', 'slt_clc_core_notice' );
@@ -56,11 +56,8 @@ function slt_clc_init() {
 
 		// Disable plugin and theme upgrades and file editing?
 		if ( SLT_CLC_DISABLE_REMOTE_PLUGIN_THEME_UPGRADES ) {
+			add_filter( 'map_meta_cap', 'slt_clc_disable_plugin_theme_upgrades', 10, 2 );
 			define( 'DISALLOW_FILE_EDIT', true );
-			remove_action( 'load-update-core.php', 'wp_update_plugins' );
-			add_filter( 'pre_site_transient_update_plugins', create_function( '$a', "return null;" ) );
-			remove_action( 'load-update-core.php', 'wp_update_themes' );
-			add_filter( 'pre_site_transient_update_themes', create_function( '$a', "return null;" ) );
 			// Add notices?
 			if ( is_admin() && SLT_CLC_OUTPUT_NOTICES && in_array( $pagenow, array( 'plugins.php', 'themes.php', 'update-core.php' ) ) ) {
 				add_action( 'admin_notices', 'slt_clc_plugin_theme_notice' );
@@ -71,10 +68,22 @@ function slt_clc_init() {
 
 }
 
-// Output notices
-function slt_clc_plugin_theme_notice() {
-	echo '<div class="error"><p>' . esc_html( SLT_CLC_PLUGIN_THEME_NOTICE ) . '</p></div>';
+// Do disabling of capabilities
+function slt_clc_disable_plugin_theme_upgrades( $caps, $cap ) {
+	if ( in_array( $cap, array( 'update_plugins', 'delete_plugins', 'install_plugins', 'update_themes', 'delete_themes', 'install_themes' ) ) )
+		$caps[] = 'do_not_allow';
+	return $caps;
 }
+function slt_clc_disable_core_upgrades( $caps, $cap ) {
+	if ( $cap == 'update_core' )
+		$caps[] = 'do_not_allow';
+	return $caps;
+}
+
+// Output notices
 function slt_clc_core_notice() {
 	echo '<div class="error"><p>' . esc_html( SLT_CLC_CORE_NOTICE ) . '</p></div>';
+}
+function slt_clc_plugin_theme_notice() {
+	echo '<div class="error"><p>' . esc_html( SLT_CLC_PLUGIN_THEME_NOTICE ) . '</p></div>';
 }

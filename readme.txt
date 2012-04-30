@@ -4,14 +4,14 @@ Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: disable, updates, upgrades, git
 Requires at least: 3.0
 Tested up to: 3.3.2
-Stable tag: 0.1
+Stable tag: 0.2
 
 Prevents certain upgrade and installation actions on non-local environments.
 
 == Description ==
 This plugin has arisen from the requirements of a client who manage many of their WordPress sites via Git repositories on Beanstalk. Core WP files are not in the repo, to keep its size down, but plugins and themes are. WP upgrades are of course tested on local development and remote staging servers before being run on the production server. But since plugins and themes are in the repo, ideally they should be upgraded locally for testing, then pushed to Beanstalk. Beanstalk in turn deploys the changes to the staging server, and then the production server.
 
-To help maintain this workflow, this plugin tests if the environment is local or not (checking for `WP_LOCAL_DEV` or searching for "localhost" in `$_SERVER['HTTP_HOST']`). If the environment isn't local, plugin upgrades are disabled.
+To help maintain this workflow, this plugin tests if the environment is local or not (checking for `WP_LOCAL_DEV` or searching for "localhost" in `$_SERVER['HTTP_HOST']`). If the environment isn't local, plugin and theme installation, editing and upgrades are disabled.
 
 The following constants can be defined in `wp-config.php` to override the defaults:
 
@@ -34,5 +34,8 @@ Development code hosted at [GitHub](https://github.com/gyrus/Control-Live-Change
 NOTE: Instead of the above, you may want to drop the `control-live-changes.php` file into the `/wp-content/mu-plugins/` directory to ensure that no one deactivates this plugin!
 
 == Changelog ==
+= 0.2 =
+* Improved disabling functionality by using the `map_meta_cap` filter
+
 = 0.1 =
 * First version
