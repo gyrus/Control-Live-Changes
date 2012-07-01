@@ -4,7 +4,7 @@ Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: disable, updates, upgrades, git
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 0.2
+Stable tag: 0.2.1
 
 Prevents certain upgrade and installation actions on non-local environments.
 

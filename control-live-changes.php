@@ -4,7 +4,7 @@
  * Plugin Name: Control Live Changes
  * Plugin URI: http://sltaylor.co.uk/
  * Description: Prevents certain upgrade and installation actions on non-local environments. With thanks to John Blackbourn!
- * Version: 0.2
+ * Version: 0.2.1
  * Author: Steve Taylor
  * Author URI: http://sltaylor.co.uk/
  * License: GPL2
