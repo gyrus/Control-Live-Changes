@@ -57,7 +57,8 @@ function slt_clc_init() {
 		// Disable plugin and theme upgrades and file editing?
 		if ( SLT_CLC_DISABLE_REMOTE_PLUGIN_THEME_UPGRADES ) {
 			add_filter( 'map_meta_cap', 'slt_clc_disable_plugin_theme_upgrades', 10, 2 );
-			define( 'DISALLOW_FILE_EDIT', true );
+			if ( ! defined( 'DISALLOW_FILE_EDIT' ) )
+				define( 'DISALLOW_FILE_EDIT', true );
 			// Add notices?
 			if ( is_admin() && SLT_CLC_OUTPUT_NOTICES && in_array( $pagenow, array( 'plugins.php', 'themes.php', 'update-core.php' ) ) ) {
 				add_action( 'admin_notices', 'slt_clc_plugin_theme_notice' );
