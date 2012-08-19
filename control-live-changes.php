@@ -4,7 +4,7 @@
  * Plugin Name: Control Live Changes
  * Plugin URI: http://sltaylor.co.uk/
  * Description: Prevents certain upgrade and installation actions on non-local environments. With thanks to John Blackbourn!
- * Version: 0.2.1
+ * Version: 0.2.2
  * Author: Steve Taylor
  * Author URI: http://sltaylor.co.uk/
  * License: GPL2
@@ -86,5 +86,10 @@ function slt_clc_core_notice() {
 	echo '<div class="error"><p>' . esc_html( SLT_CLC_CORE_NOTICE ) . '</p></div>';
 }
 function slt_clc_plugin_theme_notice() {
-	echo '<div class="error"><p>' . esc_html( SLT_CLC_PLUGIN_THEME_NOTICE ) . '</p></div>';
+	//echo '<pre>'; print_r( get_current_screen() ); echo '</pre>';
+	$screen = get_current_screen();
+	if (	$screen->parent_base == $screen->id || // Covers main themes and plugins pages
+		( $screen->id == 'update-core' ) // Covers core update page
+	)
+		echo '<div class="error"><p>' . esc_html( SLT_CLC_PLUGIN_THEME_NOTICE ) . '</p></div>';
 }

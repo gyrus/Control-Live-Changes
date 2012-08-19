@@ -4,7 +4,7 @@ Donate link: http://www.babyloniantimes.co.uk/index.php?page=donate
 Tags: disable, updates, upgrades, git
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 
 Prevents certain upgrade and installation actions on non-local environments.
 
@@ -34,6 +34,9 @@ Development code hosted at [GitHub](https://github.com/gyrus/Control-Live-Change
 NOTE: Instead of the above, you may want to drop the `control-live-changes.php` file into the `/wp-content/mu-plugins/` directory to ensure that no one deactivates this plugin!
 
 == Changelog ==
+= 0.2.2 =
+* Improved screen checking for plugins and theme pages
+
 = 0.2.1 =
 * Added tests for constants that might already be defined
 
